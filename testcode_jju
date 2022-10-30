@@ -1,0 +1,49 @@
+!nvidia-smi
+#디바이스 0
+
+! git clone https://github.com/clovaai/stargan-v2.git
+#깃 클론
+
+
+%cd stargan-v2/
+#위치 지정
+
+!pip install ffmpeg-python==0.2.0 scikit-image==0.16.2
+!pip install scipy==1.5.0 tqdm==4.48.0 munch==2.5.0
+// 도구 버전 맞추기
+
+! bash download.sh celeba-hq-dataset
+! bash download.sh pretrained-network-celeba-hq
+! bash download.sh wing
+print("CelebA-HQ Download Complete!")
+#데이터셋
+
+# Upload Female Image
+%cd /content/stargan-v2/assets/representative/custom/female/
+
+from google.colab import files
+uploaded = files.upload()
+
+%cd /content/stargan-v2/
+! rm -f -r assets/representative/custom/female/.ipynb_checkpoints
+!python main.py --mode align --inp_dir assets/representative/custom/female/ --out_dir assets/representative/celeba_hq/src/female/
+#여자
+
+
+# Upload Male Image
+%cd /content/stargan-v2/assets/representative/custom/male/
+
+from google.colab import files
+uploaded = files.upload()
+
+%cd /content/stargan-v2/
+! rm -f -r assets/representative/custom/male/.ipynb_checkpoints
+!python main.py --mode align --inp_dir assets/representative/custom/male/  --out_dir assets/representative/celeba_hq/src/male/
+#남자
+
+!python main.py --mode sample --num_domains 2 --resume_iter 100000 --w_hpf 1 \
+               --checkpoint_dir expr/checkpoints/celeba_hq \
+               --result_dir expr/results/celeba_hq \
+               --src_dir assets/representative/celeba_hq/src \
+               --ref_dir assets/representative/celeba_hq/ref
+               

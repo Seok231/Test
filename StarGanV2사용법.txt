@@ -1,0 +1,18 @@
+https://colab.research.google.com/drive/1NavLGqSHDLfgbppCFg7pSRDvhYeHwg4G?usp=sharing#scrollTo=UexalSAovRXs
+stargan v2 기본예제
+
+
+
+!pip install ffmpeg-python==0.2.0 scikit-image==0.16.2
+!pip install scipy==1.2.1 tqdm==4.43.0 munch==2.5.0
+수정
+!pip install ffmpeg-python==0.2.0 scikit-image==0.16.2
+!pip install scipy==1.5.0 tqdm==4.48.0 munch==2.5.0
+이렇게
+
+
+core/checkpoint.py 48번째 줄 module.module.load_state_dict(module_dict[name])
+ -> module.module.load_state_dict(module_dict[name], False) 로 수정
+
+예제테스트 한번올리면 계속 결과에 나옴 ㄷㄷ
+
